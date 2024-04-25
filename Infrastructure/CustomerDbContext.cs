@@ -12,7 +12,6 @@ namespace Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<Customer>()
                         .HasIndex(_ => _.Email)
                         .IsUnique();

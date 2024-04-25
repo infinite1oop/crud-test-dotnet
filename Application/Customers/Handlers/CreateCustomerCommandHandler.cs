@@ -32,6 +32,7 @@ namespace Application.Customers.Handlers
 
             var customer = new Customer
             {
+                Id = Guid.NewGuid(),
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 DateOfBirth = request.DateOfBirth,
