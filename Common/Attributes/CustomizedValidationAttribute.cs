@@ -1,5 +1,4 @@
 ﻿using Common.Helpers;
-using PhoneNumbers;
 using System.ComponentModel.DataAnnotations;
 
 namespace Common.Attributes
@@ -17,7 +16,7 @@ namespace Common.Attributes
 
         #region Constants
         const string PHONENUMBER_ERRORMESSAGE = "Please Enter a Valid Phone Number";
-        const string BANKACCOUNTNUMBER_ERRORMESSAGE = "Please Enter a Valid Phone Number";
+        const string BANKACCOUNTNUMBER_ERRORMESSAGE = "Please Enter a Valid Bank Account Number";
         const string DATE_ERRORMESSAGE = "Please Enter a Valid Date";
         const string BANKACCOUNTNUMBER_PATTERN = @"^\d{6,20}$";
         #endregion
@@ -39,17 +38,9 @@ namespace Common.Attributes
             {
                 case ValidationType.PhoneNumber:
                     errorMessage = PHONENUMBER_ERRORMESSAGE;
-                    PhoneNumberUtil phoneUtil = PhoneNumberUtil.GetInstance();
-                    try
-                    {
-                        PhoneNumber number = phoneUtil.Parse(value.ToString(), null);
-                        var isValid = phoneUtil.IsValidNumber(number);
-                        return isValid ? ValidationResult.Success : new ValidationResult(errorMessage);
-                    }
-                    catch (NumberParseException)
-                    {
-                        return new ValidationResult(errorMessage);
-                    }
+                    var phoneNumber = value.ToString();
+                    var isValid = PhoneNumberHelper.IsValidPhoneNumber(phoneNumber);
+                    return isValid ? ValidationResult.Success : new ValidationResult(errorMessage);
                 case ValidationType.BankAccountNumber:
                     pattern = BANKACCOUNTNUMBER_PATTERN;
                     errorMessage = BANKACCOUNTNUMBER_ERRORMESSAGE;

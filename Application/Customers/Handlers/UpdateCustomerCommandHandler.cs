@@ -1,4 +1,5 @@
 ﻿using Application.Customers.Commands;
+using Common.Helpers;
 using Core.Interfaces;
 using Core.Models;
 using MediatR;
@@ -51,7 +52,7 @@ namespace Application.Customers.Handlers
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 DateOfBirth = request.DateOfBirth,
-                PhoneNumber = request.PhoneNumber,
+                PhoneNumber = PhoneNumberHelper.ConvertPhoneNumberToULong(request.PhoneNumber),
                 Email = request.Email,
                 BankAccountNumber = request.BankAccountNumber
             };

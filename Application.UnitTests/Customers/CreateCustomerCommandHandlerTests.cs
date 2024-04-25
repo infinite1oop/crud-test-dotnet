@@ -31,7 +31,7 @@ namespace Application.UnitTests.Customers
                 FirstName = "John",
                 LastName = "Doe",
                 DateOfBirth = "1990-02-03",
-                PhoneNumber = "+1 (650) 253-0000",
+                PhoneNumber = "+989117115755",
                 Email = "john.doe@example.com",
                 BankAccountNumber = "100200300400"
             };
@@ -122,7 +122,7 @@ namespace Application.UnitTests.Customers
                 FirstName = "John",
                 LastName = "Doe",
                 DateOfBirth = "1990-02-03",
-                PhoneNumber = "(650) 253-0000",
+                PhoneNumber = "+983323332233",
                 Email = "john.doe@example.com",
                 BankAccountNumber = "1234567890123456"
             };

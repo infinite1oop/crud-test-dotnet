@@ -13,9 +13,7 @@ namespace Core.Models
         [MaxLength(10)]
         [CustomizedValidation(ValidationType.Date)]
         public string DateOfBirth { get; set; }
-        [MaxLength(17)]
-        [CustomizedValidation(ValidationType.PhoneNumber)]
-        public string PhoneNumber { get; set; }
+        public ulong? PhoneNumber { get; set; }
         [MaxLength(70)]
         [EmailAddress]
         public string Email { get; set; }
