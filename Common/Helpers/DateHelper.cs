@@ -4,8 +4,7 @@
     {
         public static bool IsValidIso8601Date(string input)
         {
-            DateTime parsedDate;
-            return DateTime.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out parsedDate);
+            return DateTime.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _);
         }
     }
 }

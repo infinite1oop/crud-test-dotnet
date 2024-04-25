@@ -33,12 +33,12 @@ namespace Application.Customers.Handlers
                 }
             }
 
-            if (existingCustomer.FirstName != request.FirstName ||
-                existingCustomer.LastName != request.LastName ||
+            if (existingCustomer.FirstName?.ToLower() != request.FirstName?.ToLower() ||
+                existingCustomer.LastName?.ToLower() != request.LastName?.ToLower() ||
                 existingCustomer.DateOfBirth != request.DateOfBirth)
             {
-                var existingCustomerWithDetails = await _unitOfWork.CustomerRepository.FirstOrDefaultAsync(c => c.FirstName == request.FirstName &&
-                                                                                                   c.LastName == request.LastName &&
+                var existingCustomerWithDetails = await _unitOfWork.CustomerRepository.FirstOrDefaultAsync(c => c.FirstName.ToLower() == request.FirstName.ToLower() &&
+                                                                                                   c.LastName.ToLower() == request.LastName.ToLower() &&
                                                                                                    c.DateOfBirth == request.DateOfBirth);
                 if (existingCustomerWithDetails != null)
                 {

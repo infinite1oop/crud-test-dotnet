@@ -23,8 +23,8 @@ namespace Application.Customers.Handlers
                 return (Guid.Empty, "Email already exists.");
             }
 
-            var existingCustomerWithDetails = await _unitOfWork.CustomerRepository.FirstOrDefaultAsync(c => c.FirstName == request.FirstName &&
-                                                                                               c.LastName == request.LastName &&
+            var existingCustomerWithDetails = await _unitOfWork.CustomerRepository.FirstOrDefaultAsync(c => c.FirstName.ToLower() == request.FirstName.ToLower() &&
+                                                                                               c.LastName.ToLower() == request.LastName.ToLower() &&
                                                                                                c.DateOfBirth == request.DateOfBirth);
             if (existingCustomerWithDetails != null)
             {

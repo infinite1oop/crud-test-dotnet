@@ -28,8 +28,10 @@ namespace Common.Helpers
                 return false;
             }
         }
-        public static ulong ConvertPhoneNumberToULong(string phoneNumberStr)
+        public static ulong? ConvertPhoneNumberToULong(string phoneNumberStr)
         {
+            if (phoneNumberStr is null)
+                return null;
             PhoneNumberUtil phoneUtil = PhoneNumberUtil.GetInstance();
             try
             {

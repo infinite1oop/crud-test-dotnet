@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories
 
         public async Task<Customer> FindByEmail(string email)
         {
-            return await _context.Customers.FirstOrDefaultAsync(_ => _.Email == email);
+            return await _context.Customers.FirstOrDefaultAsync(_ => _.Email.ToLower() == email.ToLower());
         }
 
         public async Task<Customer> FirstOrDefaultAsync(Expression<Func<Customer, bool>> predicate)
