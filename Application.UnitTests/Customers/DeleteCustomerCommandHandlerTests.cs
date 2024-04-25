@@ -15,7 +15,7 @@ namespace Application.UnitTests.Customers
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             // Setup mock repository
-            mockCustomerRepository.Setup(r => r.Delete(It.IsAny<int>()))
+            mockCustomerRepository.Setup(r => r.Delete(It.IsAny<Guid>()))
                                   .ReturnsAsync((true, ""));
 
             // Setup mock unit of work
@@ -25,7 +25,7 @@ namespace Application.UnitTests.Customers
 
             var command = new DeleteCustomerCommand
             {
-                Id = 1
+                Id = Guid.NewGuid()
             };
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -42,7 +42,7 @@ namespace Application.UnitTests.Customers
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             // Setup mock repository
-            mockCustomerRepository.Setup(r => r.Delete(It.IsAny<int>()))
+            mockCustomerRepository.Setup(r => r.Delete(It.IsAny<Guid>()))
                                   .ReturnsAsync((false, ""));
 
             // Setup mock unit of work
@@ -52,7 +52,7 @@ namespace Application.UnitTests.Customers
 
             var command = new DeleteCustomerCommand
             {
-                Id = 1
+                Id = Guid.NewGuid()
             };
             // Act
             var result = await handler.Handle(command, CancellationToken.None);

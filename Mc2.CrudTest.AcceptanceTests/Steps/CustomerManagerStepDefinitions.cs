@@ -36,7 +36,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Steps
         [Then(@"the customer should be created successfully")]
         public async Task ThenTheCustomerShouldBeCreatedSuccessfully()
         {
-            var createdCustomers = _scenarioContext.Get<List<int>>("CreatedCustomers");
+            var createdCustomers = _scenarioContext.Get<List<Guid>>("CreatedCustomers");
             foreach (var item in createdCustomers)
             {
                 var response = await _httpClient.GetFromJsonAsync<Customer>($"GetById/{item}");
@@ -168,7 +168,7 @@ namespace Mc2.CrudTest.AcceptanceTests.Steps
         [When(@"I send a request to update the customer with following detail")]
         public async Task WhenISendARequestToUpdateTheCustomerWithFollowingDetail(Table table)
         {
-            var createdCustomers = _scenarioContext.Get<List<int>>("CreatedCustomersForUpdate");
+            var createdCustomers = _scenarioContext.Get<List<Guid>>("CreatedCustomersForUpdate");
             var updateCustomerRequests = table.CreateSet<UpdateCustomerRequest>();
             foreach (var item in updateCustomerRequests)
             {

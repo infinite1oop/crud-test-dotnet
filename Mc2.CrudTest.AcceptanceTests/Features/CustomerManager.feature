@@ -10,16 +10,16 @@ Scenario: Create a new customer with valid data
 @create
 Scenario: Create a new customer with duplicate Email
 	When I create customers with the following details
-		| FirstName | LastName | DateOfBirth              | PhoneNumber       | Email                | BankAccountNumber |
+		| FirstName | LastName | DateOfBirth              | PhoneNumber       | Email                    | BankAccountNumber |
 		| Jeoffrey  | Doe      | 1985-10-15T18:30:00.000Z | +1 (650) 253-0000 | Jeoffrey.doe@example.com | 100200300400      |
 	When I create customers with the following details with duplicate email
-		| FirstName | LastName | DateOfBirth              | PhoneNumber       | Email                | BankAccountNumber |
+		| FirstName | LastName | DateOfBirth              | PhoneNumber       | Email                    | BankAccountNumber |
 		| Jon       | Doe      | 1985-10-15T18:30:00.000Z | +1 (650) 253-0000 | Jeoffrey.doe@example.com | 100200300400      |
 	Then the second request with duplicate Email should fail with a validation error
 @create
 Scenario: Create a new customer with duplicate details
 	When I create customers with the following details
-		| FirstName | LastName | DateOfBirth              | PhoneNumber       | Email                | BankAccountNumber |
+		| FirstName | LastName | DateOfBirth              | PhoneNumber       | Email                 | BankAccountNumber |
 		| Jesus     | Doe      | 1985-10-15T18:30:00.000Z | +1 (650) 253-0000 | Jesus.doe@example.com | 100200300400      |
 	When I create customers with the following details with duplicate detail
 		| FirstName | LastName | DateOfBirth              | PhoneNumber       | Email                 | BankAccountNumber |
@@ -47,8 +47,8 @@ Scenario: Update an existing customer with valid data
 		| FirstName | LastName | DateOfBirth | PhoneNumber       | Email                 | BankAccountNumber |
 		| Jerard    | Doe      | 1985-10-15  | +1 (650) 253-0000 | john.doe3@example.com | 100200300400      |
 	When I send a request to update the customer with following detail
-		| Id | FirstName | LastName | DateOfBirth | PhoneNumber       | Email                 | BankAccountNumber |
-		| 1  | Janet     | Doe      | 1985-10-15  | +1 (650) 253-0000 | janet.doe@example.com | 100200300400      |
+		| FirstName | LastName | DateOfBirth | PhoneNumber       | Email                 | BankAccountNumber |
+		| Janet     | Doe      | 1985-10-15  | +1 (650) 253-0000 | janet.doe@example.com | 100200300400      |
 	Then the customer should be updated successfully
 @update
 Scenario: Update an existing customer with invalid data
@@ -56,18 +56,18 @@ Scenario: Update an existing customer with invalid data
 		| FirstName | LastName | DateOfBirth | PhoneNumber       | Email                 | BankAccountNumber |
 		| Joey      | Doe      | 1985-10-15  | +1 (650) 253-0000 | john.doe4@example.com | 100200300400      |
 	When I send a request to update the customer with invalid PhoneNumber with the following details
-		| Id | FirstName | LastName | DateOfBirth | PhoneNumber    | Email                 | BankAccountNumber |
-		| 1  | Jane      | Doe      | 1985-10-15  | invalid_number | john.doe4@example.com | 100200300400      |
+		| FirstName | LastName | DateOfBirth | PhoneNumber    | Email                 | BankAccountNumber |
+		| Jane      | Doe      | 1985-10-15  | invalid_number | john.doe4@example.com | 100200300400      |
 	Then the request should fail with a validation error for PhoneNumber
 
 	When I send a request to update the customer with invalid Email with the following details
-		| Id | FirstName | LastName | DateOfBirth | PhoneNumber       | Email         | BankAccountNumber |
-		| 1  | Jane      | Doe      | 1985-10-15  | +1 (650) 253-0000 | invalid_email | 100200300400      |
+		| FirstName | LastName | DateOfBirth | PhoneNumber       | Email         | BankAccountNumber |
+		| Jane      | Doe      | 1985-10-15  | +1 (650) 253-0000 | invalid_email | 100200300400      |
 	Then the request should fail with a validation error for Email
 
 	When I send a request to update the customer with invalid BankAccountNumber with the following details
-		| Id | FirstName | LastName | DateOfBirth | PhoneNumber       | Email                 | BankAccountNumber |
-		| 1  | Jane      | Doe      | 1985-10-15  | +1 (650) 253-0000 | john.doe5@example.com | invalid_number    |
+		| FirstName | LastName | DateOfBirth | PhoneNumber       | Email                 | BankAccountNumber |
+		| Jane      | Doe      | 1985-10-15  | +1 (650) 253-0000 | john.doe5@example.com | invalid_number    |
 	Then the request should fail with a validation error for BankAccountNumber
 @read
 Scenario: Get an existing customer by ID

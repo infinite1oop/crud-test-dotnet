@@ -20,7 +20,7 @@ namespace API.Controllers
         public async Task<IActionResult> Create(CreateCustomerCommand command)
         {
             var result = await _mediator.Send(command);
-            if (result.Item1 > 0)
+            if (result.Item1 != Guid.Empty)
                 return Ok(result.Item1);
             return BadRequest(result.Item2);
         }
@@ -35,7 +35,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             var result = await _mediator.Send(new GetCustomerByIdQuery { Id = id });
             if (result is null)
@@ -53,7 +53,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteById(int id)
+        public async Task<IActionResult> DeleteById(Guid id)
         {
             var result = await _mediator.Send(new DeleteCustomerCommand { Id = id });
             if (!result.Item1)

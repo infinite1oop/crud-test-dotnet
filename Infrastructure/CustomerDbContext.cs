@@ -7,12 +7,12 @@ namespace Infrastructure
     {
         public CustomerDbContext(DbContextOptions<CustomerDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
         }
         public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Customer>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<Customer>()
                         .HasIndex(_ => _.Email)
                         .IsUnique();

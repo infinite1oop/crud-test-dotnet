@@ -20,7 +20,7 @@ namespace Application.UnitTests.Customers
             // Setup mock repository
             mockCustomerRepository.Setup(r => r.Update(It.IsAny<Customer>()))
                                   .Returns(true);
-            mockCustomerRepository.Setup(r => r.FindById(It.IsAny<int>()))
+            mockCustomerRepository.Setup(r => r.FindById(It.IsAny<Guid>()))
                                   .ReturnsAsync(new Customer { });
             // Setup mock unit of work
             mockUnitOfWork.Setup(_ => _.CustomerRepository).Returns(mockCustomerRepository.Object);
@@ -31,7 +31,7 @@ namespace Application.UnitTests.Customers
             {
                 FirstName = "John",
                 LastName = "Doe",
-                DateOfBirth = DateTime.Now,
+                DateOfBirth = "1990-02-03",
                 PhoneNumber = "+1 (650) 253-0000",
                 Email = "john.doe@example.com",
                 BankAccountNumber = "1234567890123456"
@@ -58,7 +58,7 @@ namespace Application.UnitTests.Customers
             // Setup mock repository
             mockCustomerRepository.Setup(r => r.Update(It.IsAny<Customer>()))
                                   .Returns(true);
-            mockCustomerRepository.Setup(r => r.FindById(It.IsAny<int>()))
+            mockCustomerRepository.Setup(r => r.FindById(It.IsAny<Guid>()))
                                   .ReturnsAsync(() => null);
             // Setup mock unit of work
             mockUnitOfWork.Setup(_ => _.CustomerRepository).Returns(mockCustomerRepository.Object);
@@ -69,7 +69,7 @@ namespace Application.UnitTests.Customers
             {
                 FirstName = "John",
                 LastName = "Doe",
-                DateOfBirth = DateTime.Now,
+                DateOfBirth = "1990-02-03",
                 PhoneNumber = "+1 (650) 253-0000",
                 Email = "john.doe@example.com",
                 BankAccountNumber = "1234567890123456"
@@ -94,7 +94,7 @@ namespace Application.UnitTests.Customers
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var existingCustomerWithEmail = new Customer { Email = "existing@example.com" };
             // Setup mock repository
-            mockCustomerRepository.Setup(r => r.FindById(It.IsAny<int>()))
+            mockCustomerRepository.Setup(r => r.FindById(It.IsAny<Guid>()))
                                   .ReturnsAsync(new Customer { });
             mockCustomerRepository.Setup(r => r.FindByEmail(It.IsAny<string>()))
                                   .ReturnsAsync(existingCustomerWithEmail);
@@ -108,7 +108,7 @@ namespace Application.UnitTests.Customers
             {
                 FirstName = "John",
                 LastName = "Doe",
-                DateOfBirth = DateTime.Now,
+                DateOfBirth = "1990-02-03",
                 Email = "existing@example.com",
                 BankAccountNumber = "1234567890123456"
             };
@@ -127,15 +127,15 @@ namespace Application.UnitTests.Customers
             var unitOfWorkMock = new Mock<IUnitOfWork>();
             var customerRepositoryMock = new Mock<ICustomerRepository>();
 
-            var existingCustomerWithDetails = new Customer { FirstName = "John", LastName = "Doe", DateOfBirth = new DateTime(1980, 1, 1) };
+            var existingCustomerWithDetails = new Customer { FirstName = "John", LastName = "Doe", DateOfBirth = "1990-02-03" };
             customerRepositoryMock.Setup(r => r.FirstOrDefaultAsync(It.IsAny<Expression<Func<Customer, bool>>>())).ReturnsAsync(existingCustomerWithDetails);
-            customerRepositoryMock.Setup(r => r.FindById(It.IsAny<int>()))
+            customerRepositoryMock.Setup(r => r.FindById(It.IsAny<Guid>()))
                                   .ReturnsAsync(new Customer { });
             unitOfWorkMock.SetupGet(u => u.CustomerRepository).Returns(customerRepositoryMock.Object);
 
             var handler = new UpdateCustomerCommandHandler(unitOfWorkMock.Object);
 
-            var request = new UpdateCustomerCommand { FirstName = "John", LastName = "Doe", DateOfBirth = new DateTime(1980, 1, 1) };
+            var request = new UpdateCustomerCommand { FirstName = "John", LastName = "Doe", DateOfBirth = "1990-02-03" };
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -153,7 +153,7 @@ namespace Application.UnitTests.Customers
 
             // Setup mock repository
             mockCustomerRepository.Setup(r => r.Update(It.IsAny<Customer>()))
-                                  .Callback<Customer>(_ => _.Id = 0);
+                                  .Callback<Customer>(_ => _.Id = Guid.NewGuid());
 
             // Setup mock unit of work
             mockUnitOfWork.Setup(uow => uow.CustomerRepository).Returns(mockCustomerRepository.Object);
@@ -164,7 +164,7 @@ namespace Application.UnitTests.Customers
             {
                 FirstName = "John",
                 LastName = "Doe",
-                DateOfBirth = DateTime.Now,
+                DateOfBirth = "1990-02-03",
                 PhoneNumber = "(650) 253-0000",
                 Email = "john.doe@example.com",
                 BankAccountNumber = "1234567890123456"

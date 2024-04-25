@@ -357,7 +357,6 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("there is an existing customer with the following details", ((string)(null)), table9, "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Id",
                             "FirstName",
                             "LastName",
                             "DateOfBirth",
@@ -365,7 +364,6 @@ this.ScenarioInitialize(scenarioInfo);
                             "Email",
                             "BankAccountNumber"});
                 table10.AddRow(new string[] {
-                            "1",
                             "Janet",
                             "Doe",
                             "1985-10-15",
@@ -419,7 +417,6 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("there is an existing customer with the following details", ((string)(null)), table11, "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Id",
                             "FirstName",
                             "LastName",
                             "DateOfBirth",
@@ -427,7 +424,6 @@ this.ScenarioInitialize(scenarioInfo);
                             "Email",
                             "BankAccountNumber"});
                 table12.AddRow(new string[] {
-                            "1",
                             "Jane",
                             "Doe",
                             "1985-10-15",
@@ -442,7 +438,6 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("the request should fail with a validation error for PhoneNumber", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Id",
                             "FirstName",
                             "LastName",
                             "DateOfBirth",
@@ -450,7 +445,6 @@ this.ScenarioInitialize(scenarioInfo);
                             "Email",
                             "BankAccountNumber"});
                 table13.AddRow(new string[] {
-                            "1",
                             "Jane",
                             "Doe",
                             "1985-10-15",
@@ -465,7 +459,6 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("the request should fail with a validation error for Email", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Id",
                             "FirstName",
                             "LastName",
                             "DateOfBirth",
@@ -473,7 +466,6 @@ this.ScenarioInitialize(scenarioInfo);
                             "Email",
                             "BankAccountNumber"});
                 table14.AddRow(new string[] {
-                            "1",
                             "Jane",
                             "Doe",
                             "1985-10-15",

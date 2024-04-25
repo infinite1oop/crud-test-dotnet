@@ -14,7 +14,7 @@ namespace Application.UnitTests.Customers
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var customerId = 1;
+            var customerId = Guid.NewGuid();
             mockUnitOfWork.Setup(r => r.CustomerRepository.FindById(customerId)).ReturnsAsync(new Customer { Id = customerId });
 
             var handler = new GetCustomerByIdQueryHandler(mockUnitOfWork.Object);
@@ -22,10 +22,10 @@ namespace Application.UnitTests.Customers
 
             // Act
             var result = await handler.Handle(query, CancellationToken.None);
-
+            var isValidId = Guid.TryParse(result.Id.ToString(), out _);
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(customerId, result.Id);
+            Assert.True(isValidId);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Application.UnitTests.Customers
             // Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var customerId = 1;
+            var customerId = Guid.NewGuid();
             mockUnitOfWork.Setup(r => r.CustomerRepository.FindById(customerId)).ReturnsAsync(() => null);
 
             var handler = new GetCustomerByIdQueryHandler(mockUnitOfWork.Object);

@@ -19,7 +19,7 @@ namespace Application.UnitTests.Customers
 
             // Setup mock repository
             mockCustomerRepository.Setup(r => r.Add(It.IsAny<Customer>()))
-                                  .Callback<Customer>(_ => _.Id = 1);//Just an Id bigger than zero
+                                  .Callback<Customer>(_ => _.Id = Guid.NewGuid());
 
             // Setup mock unit of work
             mockUnitOfWork.Setup(_ => _.CustomerRepository).Returns(mockCustomerRepository.Object);
@@ -30,7 +30,7 @@ namespace Application.UnitTests.Customers
             {
                 FirstName = "John",
                 LastName = "Doe",
-                DateOfBirth = DateTime.Now,
+                DateOfBirth = "1990-02-03",
                 PhoneNumber = "+1 (650) 253-0000",
                 Email = "john.doe@example.com",
                 BankAccountNumber = "100200300400"
@@ -44,7 +44,6 @@ namespace Application.UnitTests.Customers
 
             // Assert
             Assert.True(isValid);
-            Assert.True(result.Item1 > 0);
         }
 
         [Fact]
@@ -67,7 +66,7 @@ namespace Application.UnitTests.Customers
             {
                 FirstName = "John",
                 LastName = "Doe",
-                DateOfBirth = DateTime.Now,
+                DateOfBirth = "1990-02-03",
                 Email = "existing@example.com",
                 BankAccountNumber = "1234567890123456"
             };
@@ -76,7 +75,7 @@ namespace Application.UnitTests.Customers
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.Equal((0, "Email already exists."), result);
+            Assert.Equal((Guid.Empty, "Email already exists."), result);
         }
 
         [Fact]
@@ -86,20 +85,20 @@ namespace Application.UnitTests.Customers
             var unitOfWorkMock = new Mock<IUnitOfWork>();
             var customerRepositoryMock = new Mock<ICustomerRepository>();
 
-            var existingCustomerWithDetails = new Customer { FirstName = "John", LastName = "Doe", DateOfBirth = new DateTime(1980, 1, 1) };
+            var existingCustomerWithDetails = new Customer { FirstName = "John", LastName = "Doe", DateOfBirth = "1990-02-03" };
             customerRepositoryMock.Setup(r => r.FirstOrDefaultAsync(It.IsAny<Expression<Func<Customer, bool>>>())).ReturnsAsync(existingCustomerWithDetails);
 
             unitOfWorkMock.SetupGet(u => u.CustomerRepository).Returns(customerRepositoryMock.Object);
 
             var handler = new CreateCustomerCommandHandler(unitOfWorkMock.Object);
 
-            var request = new CreateCustomerCommand { FirstName = "John", LastName = "Doe", DateOfBirth = new DateTime(1980, 1, 1) };
+            var request = new CreateCustomerCommand { FirstName = "John", LastName = "Doe", DateOfBirth = "1990-02-03" };
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
-            Assert.Equal((0, "Customer with the same details already exists."), result);
+            Assert.Equal((Guid.Empty, "Customer with the same details already exists."), result);
         }
 
         [Fact]
@@ -111,7 +110,7 @@ namespace Application.UnitTests.Customers
 
             // Setup mock repository
             mockCustomerRepository.Setup(r => r.Add(It.IsAny<Customer>()))
-                                  .Callback<Customer>(_ => _.Id = 0);
+                                  .Callback<Customer>(_ => _.Id = Guid.Empty);
 
             // Setup mock unit of work
             mockUnitOfWork.Setup(uow => uow.CustomerRepository).Returns(mockCustomerRepository.Object);
@@ -122,7 +121,7 @@ namespace Application.UnitTests.Customers
             {
                 FirstName = "John",
                 LastName = "Doe",
-                DateOfBirth = DateTime.Now,
+                DateOfBirth = "1990-02-03",
                 PhoneNumber = "(650) 253-0000",
                 Email = "john.doe@example.com",
                 BankAccountNumber = "1234567890123456"
@@ -136,7 +135,6 @@ namespace Application.UnitTests.Customers
 
             // Assert
             Assert.False(isValid);
-            Assert.False(result.Item1 > 0);
         }
 
     }

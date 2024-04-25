@@ -1,4 +1,5 @@
-﻿using PhoneNumbers;
+﻿using Common.Helpers;
+using PhoneNumbers;
 using System.ComponentModel.DataAnnotations;
 
 namespace Common.Attributes
@@ -9,14 +10,15 @@ namespace Common.Attributes
         public enum ValidationType
         {
             PhoneNumber,
-            BankAccountNumber
+            BankAccountNumber,
+            Date
         }
         private readonly ValidationType _validationType;
 
         #region Constants
         const string PHONENUMBER_ERRORMESSAGE = "Please Enter a Valid Phone Number";
         const string BANKACCOUNTNUMBER_ERRORMESSAGE = "Please Enter a Valid Phone Number";
-
+        const string DATE_ERRORMESSAGE = "Please Enter a Valid Date";
         const string BANKACCOUNTNUMBER_PATTERN = @"^\d{6,20}$";
         #endregion
 
@@ -52,6 +54,12 @@ namespace Common.Attributes
                     pattern = BANKACCOUNTNUMBER_PATTERN;
                     errorMessage = BANKACCOUNTNUMBER_ERRORMESSAGE;
                     break;
+                case ValidationType.Date:
+                    errorMessage = DATE_ERRORMESSAGE;
+                    if (DateHelper.IsValidIso8601Date(value.ToString()))
+                        return ValidationResult.Success;
+                    else
+                        return new ValidationResult(errorMessage);
                 default:
                     throw new InvalidOperationException("Invalid validation type.");
             }

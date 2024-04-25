@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Customers.Handlers
 {
-    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, (int, string)>
+    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, (Guid, string)>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,12 +14,12 @@ namespace Application.Customers.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<(int, string)> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<(Guid, string)> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             var existingCustomerWithEmail = await _unitOfWork.CustomerRepository.FindByEmail(request.Email);
             if (existingCustomerWithEmail != null)
             {
-                return (0, "Email already exists.");
+                return (Guid.Empty, "Email already exists.");
             }
 
             var existingCustomerWithDetails = await _unitOfWork.CustomerRepository.FirstOrDefaultAsync(c => c.FirstName == request.FirstName &&
@@ -27,7 +27,7 @@ namespace Application.Customers.Handlers
                                                                                                c.DateOfBirth == request.DateOfBirth);
             if (existingCustomerWithDetails != null)
             {
-                return (0, "Customer with the same details already exists.");
+                return (Guid.Empty, "Customer with the same details already exists.");
             }
 
             var customer = new Customer

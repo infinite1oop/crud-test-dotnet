@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Customer> FindById(int id)
+        public async Task<Customer> FindById(Guid id)
         {
             return await _context.Customers.FindAsync(id);
         }
@@ -48,7 +48,7 @@ namespace Infrastructure.Repositories
             return updated > 0;
         }
 
-        public async Task<(bool, string)> Delete(int id)
+        public async Task<(bool, string)> Delete(Guid id)
         {
             var customer = await _context.Customers.FindAsync(id);
             if (customer != null)
