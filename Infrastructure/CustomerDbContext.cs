@@ -7,6 +7,7 @@ namespace Infrastructure
     {
         public CustomerDbContext(DbContextOptions<CustomerDbContext> options) : base(options)
         {
+            Database.EnsureCreated();
         }
         public DbSet<Customer> Customers { get; set; }
 
