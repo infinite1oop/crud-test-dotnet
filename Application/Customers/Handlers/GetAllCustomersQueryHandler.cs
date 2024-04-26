@@ -20,7 +20,9 @@ namespace Application.Customers.Handlers
             var result = await _unitOfWork.CustomerRepository.GetAll();
             if (result is not null)
             {
-                return result.Adapt<List<CustomerViewModel>>();
+                var response = result.Adapt<List<CustomerViewModel>>();
+                response.ForEach(_ => _.PhoneNumber = "+" + _.PhoneNumber);
+                return response;
             }
             return null;
         }

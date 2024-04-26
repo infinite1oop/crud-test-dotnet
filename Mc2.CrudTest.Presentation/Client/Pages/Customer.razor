@@ -21,41 +21,43 @@ else
 <EditForm Model="customer" OnSubmit="HandleSubmit">
     <div>
         <label for="firstname">FirstName</label>
-        <InputText id="firstname" @bind-Value="customer.FirstName" class="form-control"></InputText>
+        <InputText id="firstname" @bind-Value="customer.FirstName" class="form-control" required="required"></InputText>
     </div>
      <div>
         <label for="lastname">LastName</label>
-        <InputText id="lastname" @bind-Value="customer.LastName" class="form-control"></InputText>
+        <InputText id="lastname" @bind-Value="customer.LastName" class="form-control" required="required"></InputText>
     </div>
      <div>
         <label for="dateofbirth">DateOfBirth</label>
-        <InputText id="dateofbirth" @bind-Value="customer.DateOfBirth" class="form-control"></InputText>
+        <InputText id="dateofbirth" @bind-Value="customer.DateOfBirth" class="form-control" required="required"></InputText>
     </div>
      <div>
         <label for="phonenumber">PhoneNumber</label>
-        <InputText id="phonenumber" @bind-Value="customer.PhoneNumber" class="form-control"></InputText>
+        <InputText id="phonenumber" @bind-Value="customer.PhoneNumber" class="form-control" required="required"></InputText>
     </div>
      <div>
         <label for="email">Email</label>
-        <InputText id="email" @bind-Value="customer.Email" class="form-control"></InputText>
+        <InputText id="email" @bind-Value="customer.Email" class="form-control" required="required"></InputText>
     </div>
     <div>
         <label for="bankaccountnumber">BankAccountNumber</label>
-        <InputText id="bankaccountnumber" @bind-Value="customer.BankAccountNumber" class="form-control"></InputText>
+        <InputText id="bankaccountnumber" @bind-Value="customer.BankAccountNumber" class="form-control" required="required"></InputText>
     </div>
-    <button type="submit" class="btn btn-primary">@btnText</button>
-    <button type="button" class="btn btn-danger" @onclick="DeleteCustomer">Delete Customer</button>
+    <button type="submit" class="btn btn-primary">@btnSaveOrUpdateText</button>
+    <button type="button" class="btn btn-danger" hidden="@btnDeleteHide" @onclick="DeleteCustomer">Delete Customer</button>
 </EditForm>
 
 @code {
     [Parameter]
     public Guid? Id { get; set; }
-    string btnText = string.Empty;
+    string btnSaveOrUpdateText = string.Empty;
+    bool btnDeleteHide = false;
     Core.Models.ViewModels.CustomerViewModel? customer = new Core.Models.ViewModels.CustomerViewModel() { FirstName = "Mo" };
 
     protected override void OnInitialized()
     {
-        btnText = Id == null ? "Save New Customer" : "Update Customer";
+        btnSaveOrUpdateText = Id == null ? "Save New Customer" : "Update Customer";
+        btnDeleteHide = Id == null;
     }
 
     protected override async Task OnParametersSetAsync()

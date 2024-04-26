@@ -20,7 +20,9 @@ namespace Application.Customers.Handlers
             var result = await _unitOfWork.CustomerRepository.FindById(request.Id);
             if (result is not null)
             {
-                return result.Adapt<CustomerViewModel>();
+                var response = result.Adapt<CustomerViewModel>();
+                response.PhoneNumber = "+" + response.PhoneNumber;
+                return response;
             }
             return null;
         }
