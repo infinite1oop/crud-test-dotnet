@@ -1,7 +1,7 @@
 ﻿using Application.Customers.Commands;
 using Common.Helpers;
 using Core.Interfaces;
-using Core.Models;
+using Core.Models.Entities;
 using MediatR;
 
 namespace Application.Customers.Handlers

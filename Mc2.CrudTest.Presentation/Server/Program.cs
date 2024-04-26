@@ -1,3 +1,9 @@
+using Application;
+using Core.Interfaces;
+using Infrastructure;
+using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace Mc2.CrudTest.Presentation
 {
     public class Program
@@ -7,6 +13,15 @@ namespace Mc2.CrudTest.Presentation
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings_DefaultConnection");
+
+            builder.Services.AddDbContext<CustomerDbContext>(options =>
+                    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                    .UseSqlServer(connectionString ?? builder.Configuration.GetConnectionString("DefaultConnection"))
+                );
+            ApplicationLogic.RegisterApplicationServices(builder.Services);
+            builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();

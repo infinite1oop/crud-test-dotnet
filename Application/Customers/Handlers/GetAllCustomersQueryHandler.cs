@@ -1,11 +1,12 @@
 ﻿using Application.Customers.Queries;
 using Core.Interfaces;
-using Core.Models;
+using Core.Models.ViewModels;
+using Mapster;
 using MediatR;
 
 namespace Application.Customers.Handlers
 {
-    public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery, List<Customer>>
+    public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery, List<CustomerViewModel>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,9 +15,14 @@ namespace Application.Customers.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Customer>> Handle(GetAllCustomersQuery request, CancellationToken cancellationToken)
+        public async Task<List<CustomerViewModel>> Handle(GetAllCustomersQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CustomerRepository.GetAll();
+            var result = await _unitOfWork.CustomerRepository.GetAll();
+            if (result is not null)
+            {
+                return result.Adapt<List<CustomerViewModel>>();
+            }
+            return null;
         }
     }
 }

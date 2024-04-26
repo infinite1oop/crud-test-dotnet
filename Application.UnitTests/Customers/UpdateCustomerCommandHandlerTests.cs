@@ -1,7 +1,7 @@
 using Application.Customers.Commands;
 using Application.Customers.Handlers;
 using Core.Interfaces;
-using Core.Models;
+using Core.Models.Entities;
 using Moq;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;

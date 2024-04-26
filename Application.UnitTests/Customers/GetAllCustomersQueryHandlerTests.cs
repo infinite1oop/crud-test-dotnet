@@ -1,7 +1,7 @@
 using Application.Customers.Handlers;
 using Application.Customers.Queries;
 using Core.Interfaces;
-using Core.Models;
+using Core.Models.Entities;
 using Moq;
 
 namespace Application.UnitTests.Customers

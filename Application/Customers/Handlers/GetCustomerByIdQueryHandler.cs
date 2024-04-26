@@ -1,11 +1,12 @@
 ﻿using Application.Customers.Queries;
 using Core.Interfaces;
-using Core.Models;
+using Core.Models.ViewModels;
+using Mapster;
 using MediatR;
 
 namespace Application.Customers.Handlers
 {
-    public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, Customer>
+    public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, CustomerViewModel>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,9 +15,14 @@ namespace Application.Customers.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Customer> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
+        public async Task<CustomerViewModel> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CustomerRepository.FindById(request.Id);
+            var result = await _unitOfWork.CustomerRepository.FindById(request.Id);
+            if (result is not null)
+            {
+                return result.Adapt<CustomerViewModel>();
+            }
+            return null;
         }
     }
 }
