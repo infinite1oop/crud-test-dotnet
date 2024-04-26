@@ -1,0 +1,121 @@
+﻿@page "/customer"
+@page "/customer/{id:guid}"
+@using Core.Models.ViewModels.RequestModels
+@inject ICustomerService CustomerService
+@inject NavigationManager NavigationManager
+@inject ToastService toastService
+
+<h3>Customer</h3>
+
+@if (Id is null)
+{
+    <PageTitle>Create a new Customer</PageTitle>
+    <h3>Create a new Customer</h3>
+}
+else
+{
+    <PageTitle>Edit @customer.FirstName</PageTitle>
+    <h3>Edit @customer.FirstName</h3>
+}
+
+<EditForm Model="customer" OnSubmit="HandleSubmit">
+    <div>
+        <label for="firstname">FirstName</label>
+        <InputText id="firstname" @bind-Value="customer.FirstName" class="form-control" required="required"></InputText>
+    </div>
+     <div>
+        <label for="lastname">LastName</label>
+        <InputText id="lastname" @bind-Value="customer.LastName" class="form-control" required="required"></InputText>
+    </div>
+     <div>
+        <label for="dateofbirth">DateOfBirth</label>
+        <InputText id="dateofbirth" @bind-Value="customer.DateOfBirth" class="form-control" required="required"></InputText>
+    </div>
+     <div>
+        <label for="phonenumber">PhoneNumber</label>
+        <InputText id="phonenumber" @bind-Value="customer.PhoneNumber" class="form-control" required="required"></InputText>
+    </div>
+     <div>
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="customer.Email" class="form-control" required="required"></InputText>
+    </div>
+    <div>
+        <label for="bankaccountnumber">BankAccountNumber</label>
+        <InputText id="bankaccountnumber" @bind-Value="customer.BankAccountNumber" class="form-control" required="required"></InputText>
+    </div>
+    <button type="submit" class="btn btn-primary">@btnSaveOrUpdateText</button>
+    <button type="button" class="btn btn-danger" hidden="@btnDeleteHide" @onclick="DeleteCustomer">Delete Customer</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Guid? Id { get; set; }
+    string btnSaveOrUpdateText = string.Empty;
+    bool btnDeleteHide = false;
+    Core.Models.ViewModels.CustomerViewModel? customer = new Core.Models.ViewModels.CustomerViewModel() { FirstName = "Mo" };
+
+    protected override void OnInitialized()
+    {
+        btnSaveOrUpdateText = Id == null ? "Save New Customer" : "Update Customer";
+        btnDeleteHide = Id == null;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id is not null)
+        {
+            var result = await CustomerService.GetCustomerById(Id.Value);
+            if (result is not null)
+            {
+                customer = result;
+            }
+            else
+                NavigationManager.NavigateTo("/customer");
+        }
+    }
+
+    async Task HandleSubmit()
+    {
+        if (Id is null)
+        {
+            var customerToCreate = new CreateCustomerRequestModel
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                BankAccountNumber = customer.BankAccountNumber, 
+                DateOfBirth = customer.DateOfBirth,
+                Email = customer.Email,
+                PhoneNumber = customer.PhoneNumber
+            };
+            var (success, errorMessage) = await CustomerService.CreateCustomer(customerToCreate);
+            if (!success)
+            {
+                toastService.ShowToast(errorMessage, Core.Enums.ToastLevel.Error);
+            }
+        }
+        else
+        {
+            var customerToUpdate = new UpdateCustomerRequestModel
+                {
+                    Id = customer.Id,
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    BankAccountNumber = customer.BankAccountNumber,
+                    DateOfBirth = customer.DateOfBirth,
+                    Email = customer.Email,
+                    PhoneNumber = customer.PhoneNumber
+                };
+            var (success, errorMessage) = await CustomerService.UpdateCustomer(customerToUpdate);
+            if (!success)
+            {
+                // Show toast error
+                toastService.ShowToast(errorMessage, Core.Enums.ToastLevel.Error);
+            }
+        }
+    }
+
+    async Task DeleteCustomer()
+    {
+        await CustomerService.DeleteCustomer(customer.Id);
+    }
+}
